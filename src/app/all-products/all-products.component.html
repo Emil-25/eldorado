@@ -1,0 +1,53 @@
+<mat-tab-group mat-align-tabs="center" [disableRipple]="false" color="accent" class="bg-gradient-to-b from-cyan-500 to-cyan-600">
+    <mat-tab [label]="category | uppercase" *ngFor="let category of categories$ | async">
+        <div class="flex justify-around flex-wrap">
+            <div class="sm:w-[25%] m-2" *ngFor="let prod of products$| async | categoryFilter: category">
+                <mat-card class="h-full">
+                    <mat-card-header>
+                        <mat-card-title>{{prod.title}}</mat-card-title>
+                        <mat-card-subtitle>{{prod.category}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <img [src]="prod.image">
+                    <mat-card-content>
+                        <mat-chip-list>
+                            <mat-chip color="accent" selected>{{prod.price | currency}}</mat-chip>
+                        </mat-chip-list>
+                    </mat-card-content>
+                    <mat-card-actions align="start">
+                        <button mat-raised-button color="accent" *ngIf="!checkCart(prod)" (click)="addToCart(prod)">Add to Cart</button>
+                        <button mat-raised-button color="accent" *ngIf="checkCart(prod)" (click)="delFromCart(prod)">Added</button>
+                        <a mat-raised-button color="accent" routerLink="/details/{{prod.id}}">Details</a>
+                        <button mat-mini-fab class="mat-18" *ngIf="checkFav(prod)" matTooltip="Unsave" (click)="delFav(prod)"><mat-icon class="mat-18">favorite</mat-icon></button> 
+                        <button mat-mini-fab class="mat-18" *ngIf="!checkFav(prod)" matTooltip="Save" (click)="addFav(prod)"><mat-icon class="mat-18">favorite_border</mat-icon></button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="All">
+        <div class="flex justify-around flex-wrap">
+            <div class="sm:w-[25%] m-2" *ngFor="let prod of products$| async">
+                <mat-card class="h-full">
+                    <mat-card-header>
+                        <mat-card-title>{{prod.title}}</mat-card-title>
+                        <mat-card-subtitle>{{prod.category}}</mat-card-subtitle>
+                    </mat-card-header>
+                    <img [src]="prod.image">
+                    <mat-card-content>
+                        <mat-chip-list>
+                            <mat-chip color="accent" selected>{{prod.price | currency}}</mat-chip>
+                        </mat-chip-list>
+                    </mat-card-content>
+                    <mat-card-actions align="start">
+                        <button mat-raised-button color="accent" *ngIf="!checkCart(prod)" (click)="addToCart(prod)">Add to Cart</button>
+                        <button mat-raised-button color="accent" *ngIf="checkCart(prod)" (click)="delFromCart(prod)">Added</button>
+                        <a mat-raised-button color="accent" routerLink="/details/{{prod.id}}">Details</a>
+                        <button mat-mini-fab class="mat-18" *ngIf="checkFav(prod)" matTooltip="Unsave" (click)="delFav(prod)"><mat-icon class="mat-18">favorite</mat-icon></button> 
+                        <button mat-mini-fab class="mat-18" *ngIf="!checkFav(prod)" matTooltip="Save" (click)="addFav(prod)"><mat-icon class="mat-18">favorite_border</mat-icon></button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+<app-footer></app-footer>

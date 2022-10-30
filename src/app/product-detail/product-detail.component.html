@@ -1,0 +1,27 @@
+<main *ngIf="product" class="bg-[url(./assets/images/detail-bg.png)] bg-cover">
+    <div class="sm:w-1/2 mx-auto">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>{{product.title}}</mat-card-title>
+                <mat-card-subtitle>{{product.category}}</mat-card-subtitle>
+            </mat-card-header>
+            <img [src]="product.image">
+            <mat-card-content>
+                {{product.description}} <br>
+                <mat-chip-list>
+                    <mat-chip color="accent" selected>{{product.price | currency}}</mat-chip>
+                </mat-chip-list>
+            </mat-card-content>
+            <mat-card-actions align="start">
+                <button mat-raised-button color="accent" *ngIf="!checkCart(product)" (click)="addToCart(product)">Add to Cart</button>
+                <button mat-raised-button color="accent" *ngIf="checkCart(product)" (click)="delFromCart(product)">Added</button><span class="m-2"></span>
+                <button mat-mini-fab class="mat-18" *ngIf="checkFav(product)" (click)="delFav(product)"><mat-icon class="mat-18">favorite</mat-icon></button> 
+                <button mat-mini-fab class="mat-18" *ngIf="!checkFav(product)" (click)="addFav(product)"><mat-icon class="mat-18">favorite_border</mat-icon></button>
+            </mat-card-actions>
+            <mat-card-actions align="end">
+                <a mat-raised-button color="accent" (click)="goBack()">Back</a>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</main>
+<app-footer></app-footer>

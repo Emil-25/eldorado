@@ -1,0 +1,52 @@
+<main class="grid-cols-3 sm:grid bg-[url(./assets/images/cartbg.png)] bg-cover">
+    <div *ngIf="productsOnCart.size == 0" class="col-span-3 h-full">
+        <div class="text-center bg-indigo-300  text-gray-800 py-24 px-6">
+            <h1 id="heading" class="text-5xl md:text-6xl xl:text-7xl font-bold tracking-tight mb-12">Looks like you didn't add anything<br /><span class="text-blue-600">to Cart</span></h1>
+            <a routerLink="/all-products" class="inline-block px-7 py-3 mr-2 bg-blue-600 text-white font-medium text-sm leading-snug uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out" data-mdb-ripple="true" data-mdb-ripple-color="light" href="#!" role="button">Get started</a>
+        </div>
+    </div>
+    <div *ngIf="productsOnCart.size != 0" class="flex justify-around flex-wrap col-span-1">
+        <div class="m-2" *ngFor="let prod of productsOnCart">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-title>{{prod.title}}</mat-card-title>
+                    <mat-card-subtitle>{{prod.category}}</mat-card-subtitle>
+                </mat-card-header>
+                <img mat-card-sm-image [src]="prod.image">
+                <mat-card-content>
+                    {{prod.description}} <br>
+                    <mat-chip-list>
+                        <mat-chip color="accent" selected>{{prod.price | currency}}</mat-chip>
+                    </mat-chip-list>
+                </mat-card-content>
+                <mat-card-actions align="start">
+                    <button mat-raised-button color="primary" (click)="delFromCart(prod)">-</button>
+                    <span class="m-1"></span>
+                    <mat-chip>{{productQuantity(prod)}}</mat-chip>
+                    <button mat-raised-button color="primary" (click)="addToCart(prod)">+</button>
+                    <a mat-raised-button color="accent" routerLink="/details/{{prod.id}}">Details</a>
+                    <button mat-mini-fab class="mat-18" *ngIf="checkFav(prod)" matTooltip="Unsave" (click)="delFav(prod)"><mat-icon class="mat-18">favorite</mat-icon></button> 
+                <button mat-mini-fab class="mat-18" *ngIf="!checkFav(prod)" matTooltip="Save" (click)="addFav(prod)"><mat-icon class="mat-18">favorite_border</mat-icon></button>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+    <div class="col-span-2">
+        <div class="m-5 border-indigo-700 border-[1px] p-5 rounded-3xl lg:w-[400px] lg:translate-x-[80%] bg-white">
+            <div *ngIf="!signed">
+                <h2>For the Best shopping experience</h2><a mat-raised-button color="warn" routerLink="/profile">Sign in</a>
+            </div>
+            <div *ngIf="signed">
+                <h2>{{userData.firstName}} {{userData.lastName}}'s Cart</h2>
+            </div>
+            <mat-list>
+                <mat-list-item class="my-5"><h3 class="font-bold">Subtotal: {{price() | currency}}</h3></mat-list-item>
+                <mat-list-item class="my-5"><h3 class="font-bold">Taxes: {{price() * 0.1 | currency}}</h3></mat-list-item>
+                <mat-divider></mat-divider>
+                <mat-list-item class="my-5"><h1>Total: {{price() * 1.1 | currency}}</h1></mat-list-item>
+                <mat-list-item class="my-5"><button mat-raised-button color="accent" (click)="openDialog()">Continue to checkout</button></mat-list-item>
+            </mat-list>
+        </div>
+    </div>
+</main>
+<app-footer></app-footer>

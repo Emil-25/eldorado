@@ -1,0 +1,31 @@
+<div class="bg-[url(./assets/images/bgwavy1.png)] bg-no-repeat bg-cover">
+<mat-toolbar color="primary" class="justify-center">
+    <h1 class="mx-auto font-serif">Categories</h1>
+</mat-toolbar>
+<section>
+    <div class="flex justify-center items-center" *ngIf="!loaded">
+        <div class="spinner-border animate-spin inline-block text-white w-8 h-8 border-4 rounded-full" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <div class="flex flex-wrap justify-around mt-2" *ngIf="loaded">
+      <div class="flex flex-wrap sm:w-[46%] md:w-[22%] rounded-lg bg-white shadow-lg my-6" *ngFor="let category of categories$ | async, let i = index"
+      data-aos="fade-up"
+      data-aos-offset="200"
+      [attr.data-aos-delay]= 'times[i]'
+      data-aos-duration="1000"
+      data-aos-easing="ease-in-out"
+      data-aos-mirror="true"
+      data-aos-once="true"
+      data-aos-anchor-placement="top-center">
+        <img class=" w-full object-cover rounded-t-lg md:rounded-none md:rounded-l-lg" [src]="images[i]" alt=""/>
+        <div class="p-6 flex flex-col justify-center">
+          <h1 class="text-gray-900 text-2xl font-medium mb-2">{{category | uppercase}}</h1>
+          <h3>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+            Commodi aliquam laudantium aperiam</h3>
+            <a mat-raised-button color="accent" routerLink="/all-products">More</a>
+        </div>
+      </div>
+    </div>
+</section>
+</div>

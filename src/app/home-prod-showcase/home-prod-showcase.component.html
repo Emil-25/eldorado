@@ -1,0 +1,83 @@
+<section class="bg-[url(./assets/images/featured.jpg)] bg-cover sm:bg-top bg-[center_top_-5rem]">
+<mat-toolbar color="primary" class="justify-center">
+    <h1 class="font-serif">Featured Products</h1>
+</mat-toolbar>
+<div class="mx-auto flex lg:w-[85%] lg:mt-64 md:mt-80 mt-96 flex-wrap justify-center">
+    <div *ngFor="let prod of products$ | async | slice:0:4 , let i = index" class="mx-12 md:mx-6 lg:w-[20%] md:w-[40%] my-6"
+      data-aos="fade-up"
+      data-aos-offset="200"
+      [attr.data-aos-delay]= 'times[i]'
+      data-aos-duration="1000"
+      data-aos-easing="ease-in-out"
+      data-aos-mirror="true"
+      data-aos-once="true"
+      data-aos-anchor-placement="top-center">
+        <mat-card> 
+            <mat-card-header></mat-card-header>
+            <img [src]="prod.image" class="mx-auto my-2 h-1/2">
+            <mat-card-content>
+                <mat-chip class="line-through decoration-2">{{prod.price | currency}}</mat-chip>
+                <mat-chip color="warn">{{prod.price - 7 | currency}}</mat-chip>
+                <div>{{prod.title}}</div><br>
+            </mat-card-content>
+            <mat-card-actions align="start">
+                <button mat-raised-button color="accent" *ngIf="!checkCart(prod)" (click)="addToCart(prod)">Add to Cart</button>
+                <button mat-raised-button color="accent" *ngIf="checkCart(prod)" (click)="delFromCart(prod)">Added</button>
+                <a mat-raised-button color="accent" routerLink="/details/{{prod.id}}">Details</a>
+                <button mat-mini-fab class="mat-18" *ngIf="checkFav(prod)" matTooltip="Unsave" (click)="delFav(prod)"><mat-icon class="mat-18">favorite</mat-icon></button> 
+                <button mat-mini-fab class="mat-18" *ngIf="!checkFav(prod)" matTooltip="Save"(click)="addFav(prod)"><mat-icon class="mat-18">favorite_border</mat-icon></button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>
+</section>
+<section class="flex justify-around flex-wrap bg-gradient-to-b from-sky-300 to-sky-600">
+    <mat-toolbar color="primary" class="w-full justify-center">
+        <h1 class="mx-auto font-serif">Miscellaneous</h1>
+    </mat-toolbar>
+    <div class="mx-12 md:mx-6 lg:w-[45%] md:w-[55%] my-10">
+        <mat-card> 
+            <mat-card-header class="justify-center"><h1 class="text-2xl mx-auto">Pick of the Day <mat-icon class="mat-18" color="accent">trending_up</mat-icon></h1></mat-card-header>
+            <img [src]="(pod$|async)?.image" class="mx-auto h-1/2">
+            <mat-card-content>
+                <mat-chip class="line-through decoration-2">{{(pod$|async)?.price | currency}}</mat-chip>
+                <mat-chip color="warn">{{(pod$|async)?.price! - 100| currency}}</mat-chip>
+                <div>{{(pod$|async)?.title}}</div><br>
+            </mat-card-content>
+            <mat-card-actions align="start">
+                <button mat-raised-button color="accent" *ngIf="!checkCart(pod)" (click)="addToCart(pod)">Add to Cart</button>
+                <button mat-raised-button color="accent" *ngIf="checkCart(pod)" (click)="delFromCart(pod)">Added</button>
+                <a mat-raised-button color="accent" *ngIf="pod" routerLink="/details/{{pod.id}}">Details</a>
+                <button mat-mini-fab class="mat-18" *ngIf="checkFav(pod)" matTooltip="Unsave" (click)="delFav(pod)"><mat-icon class="mat-18">favorite</mat-icon></button> 
+                <button mat-mini-fab class="mat-18" *ngIf="!checkFav(pod)" matTooltip="Save" (click)="addFav(pod)"><mat-icon class="mat-18">favorite_border</mat-icon></button>
+            </mat-card-actions>
+        </mat-card>
+        <a routerLink="/cart">
+            <div class="shadow-2xl">
+                <img src="../../assets/images/ordernow.jpg" alt="Order now" class="block mx-auto mt-5 backdrop-brightness-200">
+            </div>
+        </a>
+    </div>
+    <div class="md:w-[30%] my-5 p-8 bg-white rounded-md px-10">
+        <section class="flex flex-wrap justify-center mb-5">
+            <h1>Send someone a Gift!</h1>
+            <img src="../../assets/images/gift.jpg" alt="Send gift to someone">
+            <h2>Choose a product amongst many and send it to your close one!</h2>
+            <a mat-raised-button color="accent" routerLink="/all-products">Have a look at various items</a>
+        </section>
+        <hr>
+        <section class="mt-3">
+            <h1>Redeem a Code for Discount and Bonuses!</h1>
+            <img src="../../assets/images/bonus.jpg" alt="Send gift to someone">
+              <div class="mx-auto">
+                <mat-form-field appearance="fill">
+                  <mat-label>Enter the Code:</mat-label>
+                  <input matInput placeholder="abcd-1234-e5f6" [formControl]="code" type="text">
+                  <mat-error *ngIf="code.invalid">{{getErrorMessage()}}</mat-error>
+                  <mat-error *ngIf="code?.errors?.['maxlength']">Not a valid code!</mat-error>
+                </mat-form-field>
+                <button mat-raised-button color="accent" [disabled]="code.invalid || !code.touched || code.value==''" (click)="openSnackBar()">Submit</button>
+              </div>
+        </section>
+    </div>
+</section>
