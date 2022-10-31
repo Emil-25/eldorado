@@ -36,6 +36,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatBadgeModule } from '@angular/material/badge';
 
+import { NgbCarouselModule } from '@ng-bootstrap/ng-bootstrap'
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,7 +72,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatTabsModule,
     MatSnackBarModule,
     MatDialogModule,
-    MatBadgeModule
+    MatBadgeModule,
+    NgbCarouselModule
     ],
   providers: [],
   bootstrap: [AppComponent]
