@@ -21,10 +21,10 @@ export class HomeCategoriesComponent implements OnInit {
 
 
   images = [
-    '../../assets/images/mencloth.jpg',
-    '../../assets/images/jewellery.jpg',
-    '../../assets/images/electronic.jpg',
-    '../../assets/images/womencloth.jpg',
+    './assets/images/mencloth.jpg',
+    './assets/images/jewellery.jpg',
+    './assets/images/electronic.jpg',
+    './assets/images/womencloth.jpg',
   ]
 
   times = [50,100,150,200]
